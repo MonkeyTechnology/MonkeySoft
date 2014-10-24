@@ -1,17 +1,31 @@
 package principal;
 
-//import 
+import controladores.UserLoginJpaController;
+import java.awt.Color;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Juan Camilo
  */
 public class Log extends javax.swing.JFrame {
 
+    private EntityManagerFactory factory;
+    private UserLoginJpaController userlog;
+    public int idusuario;
+
     /**
      * Creates new form Log
      */
     public Log() {
         initComponents();
+        factory = Persistence.createEntityManagerFactory("PersisLogPU");
+        userlog = new UserLoginJpaController(factory);
+        jLabel3.setVisible(false);
     }
 
     /**
@@ -29,6 +43,7 @@ public class Log extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -42,6 +57,14 @@ public class Log extends javax.swing.JFrame {
         jButton1.setText("Log");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.setFocusable(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel3.setText("...");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -54,7 +77,8 @@ public class Log extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jTextField1)
                     .addComponent(jPasswordField1)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -70,7 +94,9 @@ public class Log extends javax.swing.JFrame {
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap(355, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addContainerGap(330, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -86,6 +112,23 @@ public class Log extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        idusuario = userlog.getidusuario(jTextField1.getText(), jPasswordField1.getText());
+//        idusuario = userlog.getUserLoginCount();
+        System.out.println(idusuario);
+        if (idusuario != 0) {
+            jLabel3.setText("Conexion Exitosa");
+            jLabel3.setForeground(new Color(51, 153, 255));
+            jLabel3.setVisible(true);
+            Contar();
+        } else {
+            jLabel3.setText("Conexion Incorrecta");
+            jLabel3.setForeground(Color.RED);
+            jLabel3.setVisible(true);
+            Contar();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,10 +165,39 @@ public class Log extends javax.swing.JFrame {
         });
     }
 
+     private Timer timer = new Timer();
+    private int segundos = 5;
+
+    class Contador extends TimerTask {
+
+        @Override
+        public void run() {
+            segundos--;
+            if (segundos == 0) {
+                Detener();
+                jLabel3.setVisible(false);
+            }
+        }
+    }
+
+    public void Contar() {
+        this.segundos = 5;
+        timer = new Timer();
+        timer.schedule(new Contador(), 0, 600);
+    }
+
+    public int getSegundos() {
+        return this.segundos;
+    }
+
+    public void Detener() {
+        timer.cancel();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
