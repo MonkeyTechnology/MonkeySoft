@@ -1,7 +1,10 @@
 package principal;
 
 import controladores.UserLoginJpaController;
+import entity.UserLogin;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.persistence.EntityManagerFactory;
@@ -16,7 +19,7 @@ public class Log extends javax.swing.JFrame {
 
     private EntityManagerFactory factory;
     private UserLoginJpaController userlog;
-    public int idusuario;
+    public List<UserLogin> idusuario;
 
     /**
      * Creates new form Log
@@ -50,9 +53,21 @@ public class Log extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
         jLabel1.setText("Usuario:");
 
         jLabel2.setText("Contraseña:");
+
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
+            }
+        });
 
         jButton1.setText("Log");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -114,21 +129,20 @@ public class Log extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        idusuario = userlog.getidusuario(jTextField1.getText(), jPasswordField1.getText());
-//        idusuario = userlog.getUserLoginCount();
-        System.out.println(idusuario);
-        if (idusuario != 0) {
-            jLabel3.setText("Conexion Exitosa");
-            jLabel3.setForeground(new Color(51, 153, 255));
-            jLabel3.setVisible(true);
-            Contar();
-        } else {
-            jLabel3.setText("Conexion Incorrecta");
-            jLabel3.setForeground(Color.RED);
-            jLabel3.setVisible(true);
-            Contar();
-        }
+        Login();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Login();
+        }
+    }//GEN-LAST:event_jPasswordField1KeyPressed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+             jPasswordField1.requestFocusInWindow();
+         }
+    }//GEN-LAST:event_jTextField1KeyPressed
 
     /**
      * @param args the command line arguments
@@ -165,7 +179,7 @@ public class Log extends javax.swing.JFrame {
         });
     }
 
-     private Timer timer = new Timer();
+    private Timer timer = new Timer();
     private int segundos = 5;
 
     class Contador extends TimerTask {
@@ -192,6 +206,38 @@ public class Log extends javax.swing.JFrame {
 
     public void Detener() {
         timer.cancel();
+    }
+
+    private void Login() {
+        if ("".equals(jTextField1.getText())) {
+            jLabel3.setText("Debe ingresar un Usuario");
+            jLabel3.setForeground(Color.RED);
+            jLabel3.setVisible(true);
+            Contar();
+            jTextField1.requestFocusInWindow();
+        } else {
+            if ("".equals(jPasswordField1.getText())) {
+                jLabel3.setText("Ingrese Contraseña");
+                jLabel3.setForeground(Color.RED);
+                jLabel3.setVisible(true);
+                Contar();
+                jPasswordField1.requestFocusInWindow();
+            } else {
+                idusuario = userlog.getidusuario(jTextField1.getText().toUpperCase(), jPasswordField1.getText());
+                if (idusuario.size() > 0) {
+                    jLabel3.setText("Conexion Exitosa");
+                    jLabel3.setForeground(new Color(51, 153, 255));
+                    jLabel3.setVisible(true);
+                    Contar();
+                    System.out.println(idusuario.get(0).getId() + " - " + idusuario.get(0).getUsuario());
+                } else {
+                    jLabel3.setText("Conexion Incorrecta");
+                    jLabel3.setForeground(Color.RED);
+                    jLabel3.setVisible(true);
+                    Contar();
+                }
+            }
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
