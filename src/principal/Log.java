@@ -4,11 +4,13 @@ import controladores.UserLoginJpaController;
 import entity.UserLogin;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,9 +28,12 @@ public class Log extends javax.swing.JFrame {
      */
     public Log() {
         initComponents();
+        URL url = getClass().getResource("/recursos/monkey.jpg");
+        ImageIcon imagen = new ImageIcon(url);
+        setIconImage(imagen.getImage());
         factory = Persistence.createEntityManagerFactory("PersisLogPU");
         userlog = new UserLoginJpaController(factory);
-        jLabel3.setVisible(false);
+        jLabel3.setText("Bienvenido");
     }
 
     /**
@@ -47,12 +52,19 @@ public class Log extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jTextField1.setText("camilo");
+        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField1FocusGained(evt);
+            }
+        });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
@@ -63,6 +75,12 @@ public class Log extends javax.swing.JFrame {
 
         jLabel2.setText("Contraseña:");
 
+        jPasswordField1.setText("1234");
+        jPasswordField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPasswordField1FocusGained(evt);
+            }
+        });
         jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordField1KeyPressed(evt);
@@ -79,27 +97,44 @@ public class Log extends javax.swing.JFrame {
         });
 
         jLabel3.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("...");
+
+        jPanel2.setBackground(new java.awt.Color(102, 153, 255));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(655, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(43, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1)
                     .addComponent(jPasswordField1)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(65, 65, 65)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,14 +146,14 @@ public class Log extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
-                .addContainerGap(330, Short.MAX_VALUE))
+                .addGap(46, 46, 46))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,10 +174,18 @@ public class Log extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1KeyPressed
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-             jPasswordField1.requestFocusInWindow();
-         }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jPasswordField1.requestFocusInWindow();
+        }
     }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
+        jTextField1.selectAll();
+    }//GEN-LAST:event_jTextField1FocusGained
+
+    private void jPasswordField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordField1FocusGained
+        jPasswordField1.selectAll();
+    }//GEN-LAST:event_jPasswordField1FocusGained
 
     /**
      * @param args the command line arguments
@@ -189,7 +232,8 @@ public class Log extends javax.swing.JFrame {
             segundos--;
             if (segundos == 0) {
                 Detener();
-                jLabel3.setVisible(false);
+                jLabel3.setForeground(new Color(51, 153, 255));
+                jLabel3.setText("Bienvenido");
             }
         }
     }
@@ -212,14 +256,12 @@ public class Log extends javax.swing.JFrame {
         if ("".equals(jTextField1.getText())) {
             jLabel3.setText("Debe ingresar un Usuario");
             jLabel3.setForeground(Color.RED);
-            jLabel3.setVisible(true);
             Contar();
             jTextField1.requestFocusInWindow();
         } else {
             if ("".equals(jPasswordField1.getText())) {
                 jLabel3.setText("Ingrese Contraseña");
                 jLabel3.setForeground(Color.RED);
-                jLabel3.setVisible(true);
                 Contar();
                 jPasswordField1.requestFocusInWindow();
             } else {
@@ -227,13 +269,15 @@ public class Log extends javax.swing.JFrame {
                 if (idusuario.size() > 0) {
                     jLabel3.setText("Conexion Exitosa");
                     jLabel3.setForeground(new Color(51, 153, 255));
-                    jLabel3.setVisible(true);
                     Contar();
                     System.out.println(idusuario.get(0).getId() + " - " + idusuario.get(0).getUsuario());
+                    Menprincipal menu = new Menprincipal();
+                    menu.setLocationRelativeTo(null);
+                    this.dispose();
+                    menu.show();
                 } else {
                     jLabel3.setText("Conexion Incorrecta");
                     jLabel3.setForeground(Color.RED);
-                    jLabel3.setVisible(true);
                     Contar();
                 }
             }
@@ -245,6 +289,7 @@ public class Log extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
